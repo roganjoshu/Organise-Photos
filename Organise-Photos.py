@@ -4,9 +4,10 @@ from datetime import datetime
 
 def ProcessImages():    
     directoryAsString = input("Enter path to folder: ")
-    AssessPhotos(directoryAsString)
+    print("Sorting... this may take a few minutes.")
+    OrganisePhotos(directoryAsString)
     
-def AssessPhotos(directoryAsString):
+def OrganisePhotos(directoryAsString):
     for fileName in os.listdir(directoryAsString):
         
         if fileName.endswith(".jpg") or fileName.endswith(".mp4"):
@@ -18,6 +19,7 @@ def AssessPhotos(directoryAsString):
             
             #If the new location doesn't exist then create the new location
             if not os.path.exists(newFileLocation):
+                print("Creating new folder.")
                 os.mkdir(newFileLocation)
             #Move the image to the new location
             MoveFileToFolder(oldFilePath, newFileLocation, fileName)
@@ -26,17 +28,16 @@ def GetCreationDate(p_filePath):
     
     #Retrieve .jpg creation date
     if p_filePath.endswith(".jpg"):
-        GetImageCreationDate(p_filePath)
+        return GetImageCreationDate(p_filePath)
     
     #Retrieve .mp4 creation date
     elif p_filePath.endswith(".mp4"):
-        GetFilmCreationDate(p_filePath)
+        return GetFilmCreationDate(p_filePath)
         
     
 def GetImageCreationDate(p_filePath):
         exifData = Image.open(p_filePath)._getexif()[36867]
-        exifCreationDate = exifData.split(":")[0] + "-" + exifData.split(":")[1]
-        return exifCreationDate
+        return exifData.split(":")[0] + "-" + exifData.split(":")[1]
     
 def GetFilmCreationDate(p_filePath):
     creationDate = os.path.getmtime(p_filePath)
