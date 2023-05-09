@@ -40,9 +40,13 @@ def GetImageCreationDate(p_filePath):
         return exifData.split(":")[0] + "-" + exifData.split(":")[1]
     
 def GetFilmCreationDate(p_filePath):
+    #Retrieve the last modification time of the specified file
     creationDate = os.path.getmtime(p_filePath)
+    #Convert the timestamp to datetime object
     modified_datetime = datetime.fromtimestamp(creationDate)
+    #Format the datetime object as a string in the format "YYYY-MM-DD"
     modified_datetime_str = modified_datetime.strftime("%Y-%m-%d")
+    #Extract the year and month from the formatted string and concatenate them
     return modified_datetime_str.split("-")[0] + "-" + modified_datetime_str.split("-")[1]
         
 def MoveFileToFolder(p_oldFilePath, p_newFileLocation, p_fileName):
